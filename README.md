@@ -2,9 +2,7 @@
 
 This repository provides the sourcecode to calibrate projector-camera system using chessboard and structured light (graycode pattern).
 
-## How to use
-
-### Requirement
+## Requirement
 
 * Python
     * Python 3 is recommended
@@ -13,6 +11,7 @@ This repository provides the sourcecode to calibrate projector-camera system usi
 * Printed chessboard
     * You can find PDF [here](http://oencv.jp/sample/pics/chesspattern_7x10.pdf)
 
+## How to use
 ### Step 1 : Generate graycode pattern
 
 Open terminal and type the command `python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]`.
