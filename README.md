@@ -27,7 +27,7 @@ Then, project the graycode pattern images from projector on it and capture it fr
 
 Minimal required shot is one, however it is recommended to capture more than 5 times to improve calibration accuracy.
 
-Captured images must be saved as './capture_*/graycode_*.(png/jpg)'.
+Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 
 ### Step 3 : Calibrate projector / camera parameters
 
@@ -40,7 +40,7 @@ Result translation vector will be calculated with the unit specified here.
 `white_threashould` is a threashold to specify robustness of graycode decoding.
 To avoid decoding error, increase these numbers.
 
-Calibration result will be saved as `./calibration_result.xml` (cv::Filestorage format).
+Calibration result will be saved as `./calibration_result.xml` (cv::FileStorage format).
 
 ## Additional Resource
 
