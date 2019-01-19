@@ -14,13 +14,18 @@ This repository provides the sourcecode to calibrate projector-camera system usi
 ## How to use
 ### Step 1 : Generate graycode pattern
 
-Open terminal and type the command `python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]`.
+Open terminal and type the following command.
+
+```sh
+python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]
+```
+
 Generated pattern images will be saved into `./graycode_pattern/`.
 
 `graycode_step` is a option to specify pixel size of a bit of the graycode.
 If you get moire pattern in captured images, increase this number.
 
-### Step 2 : Project pattern and capture
+### Step 2 : Project and capture graycode pattern
 
 Setup your system and put the chessboard in front of the projector and the camera.
 Then, project the graycode pattern images from projector on it and capture it from the camera.
@@ -31,7 +36,11 @@ Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 
 ### Step 3 : Calibrate projector / camera parameters
 
-After saving captured images, run the command `python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=5)>] [-white_thr <white_thr(default=40)>]`.
+After saving captured images, run the following command.
+
+```sh
+python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=5)>] [-white_thr <white_thr(default=40)>]
+```
 
 `chess_block_size` means size (mm/cm/m) of a block on the chessboard.
 Result translation vector will be calculated with the unit specified here.
