@@ -22,7 +22,7 @@ python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-g
 
 Generated pattern images will be saved into `./graycode_pattern/`.
 
-`graycode_step` is a option to specify pixel size of a bit of the graycode.
+`graycode_step` is an option to specify pixel size of a bit of the graycode.
 If you get moire pattern in captured images, increase this number.
 
 ### Step 2 : Project and capture graycode pattern
@@ -33,6 +33,13 @@ Then, project the graycode pattern images from projector on it and capture it fr
 Minimal required shot is one, however it is recommended to capture more than 5 times to improve calibration accuracy.
 
 Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
+
+<table>
+   <tr>
+      <td><img src="./sample_data/capture_0/graycode_40.png"></td>
+      <td><img src="./sample_data/capture_0/graycode_15.png"></td>
+   </tr>
+</table>
 
 ### Step 3 : Calibrate projector / camera parameters
 
