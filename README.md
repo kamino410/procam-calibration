@@ -20,17 +20,17 @@ Open terminal and type the following command.
 python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]
 ```
 
-Generated pattern images will be saved into `./graycode_pattern/`.
+Generated pattern images will be saved in `./graycode_pattern/`.
 
-`graycode_step` is an option to specify pixel size of a bit of the graycode.
+`graycode_step` is an option to specify pixel size of a bit in the graycode.
 If you get moire pattern in captured images, increase this number.
 
 ### Step 2 : Project and capture graycode pattern
 
-Setup your system and put the chessboard in front of the projector and the camera.
+Setup your system and place the chessboard in front of the projector and the camera.
 Then, project the graycode pattern images from projector on it and capture it from the camera.
 
-Minimal required shot is one, however it is recommended to capture more than 5 times to improve calibration accuracy.
+Although minimum required shot is one, it is recommended to capture more than 5 times to improve calibration accuracy.
 
 Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 
@@ -49,8 +49,8 @@ After saving captured images, run the following command.
 python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=5)>] [-white_thr <white_thr(default=40)>]
 ```
 
-`chess_block_size` means size (mm/cm/m) of a block on the chessboard.
-Result translation vector will be calculated with the unit specified here.
+`chess_block_size` means length (mm/cm/m) of a block on the chessboard.
+Result of the translation vector will be calculated with the unit specified here.
 
 `black_threashould` is a threashold to determine whether a camera pixel captures projected area or not.
 `white_threashould` is a threashold to specify robustness of graycode decoding.
