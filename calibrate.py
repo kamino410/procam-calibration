@@ -34,10 +34,10 @@ def main():
                         help='size of blocks of chessboard (mm or cm or m)')
     parser.add_argument('graycode_step', type=int,
                         default=1, help='step size of graycode')
-    parser.add_argument('-black_thr', type=int, default=5,
-                        help='threashold to determine whether a camera pixel captures projected area or not (default : 5)')
-    parser.add_argument('-white_thr', type=int, default=40,
-                        help='threashold to specify robustness of graycode decoding (default : 40)')
+    parser.add_argument('-black_thr', type=int, default=40,
+                        help='threashold to determine whether a camera pixel captures projected area or not (default : 40)')
+    parser.add_argument('-white_thr', type=int, default=5,
+                        help='threashold to specify robustness of graycode decoding (default : 5)')
 
     args = parser.parse_args()
 
@@ -97,14 +97,14 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
     for dname, gc_filenames in zip(dirnames, gc_fname_lists):
         print('  checking \'' + dname + '\'')
         if len(gc_filenames) != graycode.getNumberOfPatternImages() + 2:
-            print('Error : number of images is not right in \'' + dname + '\'')
+            print('Error : invalid number of images in \'' + dname + '\'')
             return None
 
         imgs = []
         for fname in gc_filenames:
             img = cv2.imread(fname, cv2.IMREAD_GRAYSCALE)
             if cam_shape != img.shape:
-                print('Error : image shape of \'' + fname + '\' is mismatch')
+                print('Error : image size of \'' + fname + '\' is mismatch')
                 return None
             imgs.append(img)
         black_img = imgs.pop()
@@ -140,7 +140,7 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
             if len(src_points) < patch_size_half**2:
                 print(
                     '    Warning : corner', c_x, c_y,
-                    'was skiped because decoded pixels are too few (check your images and threasholds)')
+                    'was skiped because decoded pixels were too few (check your images and threasholds)')
                 continue
             h_mat, inliers = cv2.findHomography(
                 np.array(src_points), np.array(dst_points))
@@ -152,7 +152,7 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
             # viz_proj_points[int(round(point_pix[1])),
             #                 int(round(point_pix[0]))] = 255
         if len(proj_corners) < 3:
-            print('Error : too few corners are found in \'' +
+            print('Error : too few corners were found in \'' +
                   dname + '\' (less than 3)')
             return None
         proj_objps_list.append(np.float32(proj_objps))
