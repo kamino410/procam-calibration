@@ -12,13 +12,13 @@ def main():
     parser = argparse.ArgumentParser(
         description='Calibrate pro-cam system using chessboard and structured light projection\n'
         '  Place captured images as \n'
-        '    ./ --- capture_1/ --- chessboard.png\n'
-        '        |              |- graycode_00.png\n'
+        '    ./ --- capture_1/ --- graycode_00.png\n'
+        '        |              |- graycode_01.png\n'
         '        |              |        .\n'
         '        |              |        .\n'
         '        |              |- graycode_??.png\n'
-        '        |- capture_2/ --- chessboard.png\n'
-        '        |              |- graycode_00.png\n'
+        '        |- capture_2/ --- graycode_00.png\n'
+        '        |              |- graycode_01.png\n'
         '        |      .       |        .\n'
         '        |      .       |        .\n',
         formatter_class=argparse.RawTextHelpFormatter
