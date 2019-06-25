@@ -9,7 +9,7 @@ This repository provides the sourcecode to calibrate projector-camera system usi
 * OpenCV
     * `python -m pip install opencv-python opencv-contrib-python`
 * Printed chessboard
-    * You can find PDF [here](http://oencv.jp/sample/pics/chesspattern_7x10.pdf)
+    * You can find PDF [here](http://opencv.jp/sample/pics/chesspattern_7x10.pdf)
 
 ## How to use
 ### Step 1 : Generate graycode pattern
@@ -18,6 +18,9 @@ Open terminal and type the following command.
 
 ```sh
 python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]
+
+# example
+python gen_graycode_imgs.py 1080 1920 -graycode_step 2
 ```
 
 Generated pattern images will be saved in `./graycode_pattern/`.
@@ -47,13 +50,16 @@ After saving captured images, run the following command.
 
 ```sh
 python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=5)>] [-white_thr <white_thr(default=40)>]
+
+# example
+python calibrate.py 1080 1920 10 7 75 2 -black_thr 4 -white_thr 30
 ```
 
 `chess_block_size` means length (mm/cm/m) of a block on the chessboard.
 Result of the translation vector will be calculated with the unit specified here.
 
-`black_threashould` is a threashold to determine whether a camera pixel captures projected area or not.
-`white_threashould` is a threashold to specify robustness of graycode decoding.
+`black_threashold` is a threashold to determine whether a camera pixel captures projected area or not.
+`white_threashold` is a threashold to specify robustness of graycode decoding.
 To avoid decoding error, increase these numbers.
 
 Calibration result will be saved as `./calibration_result.xml` (cv::FileStorage format).
