@@ -1,6 +1,6 @@
 # procam-calibration
 
-This repository provides the sourcecode to calibrate projector-camera system using chessboard and structured light (graycode pattern).
+This repository provides a sourcecode to calibrate projector-camera system using chessboard and structured light (graycode pattern).
 
 ## Requirement
 
@@ -56,7 +56,7 @@ python calibrate.py 1080 1920 10 7 75 2 -black_thr 4 -white_thr 30
 ```
 
 `chess_block_size` means length (mm/cm/m) of a block on the chessboard.
-Result of the translation vector will be calculated with the unit specified here.
+Result of the translation vector will be calculated with the length unit specified here.
 
 `black_threashold` is a threashold to determine whether a camera pixel captures projected area or not.
 `white_threashold` is a threashold to specify robustness of graycode decoding.
