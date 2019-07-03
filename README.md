@@ -33,7 +33,7 @@ If you get moire pattern in captured images, increase this number.
 Setup your system and place the chessboard in front of the projector and the camera.
 Then, project the graycode pattern images from projector on it and capture it from the camera.
 
-Although minimum required shot is one, it is recommended to capture more than 5 times to improve calibration accuracy.
+Although minimum required shot is one, it is recommended to capture more than 5 times with different attitude of the chessboard to improve calibration accuracy.
 
 Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 
