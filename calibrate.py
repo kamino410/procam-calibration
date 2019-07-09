@@ -136,7 +136,7 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
                     err, proj_pix = graycode.getProjPixel(imgs, x, y)
                     if not err:
                         src_points.append((x, y))
-                        dst_points.append(gc_step*proj_pix)
+                        dst_points.append(gc_step*np.array(proj_pix))
             if len(src_points) < patch_size_half**2:
                 print(
                     '    Warning : corner', c_x, c_y,

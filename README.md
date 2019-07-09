@@ -52,7 +52,7 @@ After saving captured images, run the following command.
 python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=5)>] [-white_thr <white_thr(default=40)>]
 
 # example
-python calibrate.py 1080 1920 10 7 75 2 -black_thr 4 -white_thr 30
+python calibrate.py 1080 1920 9 7 75 2 -black_thr 5 -white_thr 5
 ```
 
 `chess_block_size` means length (mm/cm/m) of a block on the chessboard.
