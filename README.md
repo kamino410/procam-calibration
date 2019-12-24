@@ -1,6 +1,6 @@
 # procam-calibration
 
-This repository provides a sourcecode to calibrate projector-camera system using chessboard and structured light (graycode pattern).
+This repository provides a source code to calibrate projector-camera system using chessboard and structured light (graycode pattern).
 
 ## Requirement
 
@@ -23,9 +23,9 @@ python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-g
 python gen_graycode_imgs.py 768 1024 -graycode_step 1
 ```
 
-Generated pattern images will be saved in `./graycode_pattern/`.
+Generated patterns will be stored in `./graycode_pattern/`.
 
-`graycode_step` is an option to specify pixel size of a bit in the graycode.
+`graycode_step` is an option to specify pixel size of bits in the graycode.
 If you get moire pattern in captured images, increase this number.
 
 ### Step 2 : Project and capture graycode pattern
