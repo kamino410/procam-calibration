@@ -49,7 +49,7 @@ Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 After saving captured images, run following command.
 
 ```sh
-python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=40)>] [-white_thr <white_thr(default=5)>]
+python calibrate.py <projector_pixel_height> <projector_pixel_width> <num_chess_corners_vert> <num_chess_corners_hori> <chess_block_size> <graycode_step> [-black_thr <black_thr(default=40)>] [-white_thr <white_thr(default=5)>][-camera <camera_parameter_json>]
 
 # example (you can test this command in the sample_data directory)
 python ../calibrate.py 768 1024 9 7 75 1 -black_thr 40 -white_thr 5
@@ -61,6 +61,8 @@ The translation vector will be calculated with the length unit specified here.
 `black_threashold` is a threashold to determine whether a camera pixel captures projected area or not.
 `white_threashold` is a threashold to specify robustness of graycode decoding.
 To avoid decoding error, increase these numbers.
+
+`camera_paramter_json` is a json file, in which internal camera paramters (projection matrix P, camera distortion, and image size) are written.  By indicating this option, the internal camera parameters are fixed and the other parameters are computed.  See "camera_config.json" as an example.
 
 Calibration result will be displayed on your terminal and saved in `./calibration_result.xml` (cv::FileStorage format).
 
