@@ -6,6 +6,7 @@ import glob
 import argparse
 import cv2
 import numpy as np
+import json
 
 
 def main():
@@ -38,6 +39,7 @@ def main():
                         help='threashold to determine whether a camera pixel captures projected area or not (default : 40)')
     parser.add_argument('-white_thr', type=int, default=5,
                         help='threashold to specify robustness of graycode decoding (default : 5)')
+    parser.add_argument('-camera', type=str, default=str(),help='camera internal parameter json file')
 
     args = parser.parse_args()
 
@@ -47,6 +49,8 @@ def main():
     gc_step = args.graycode_step
     black_thr = args.black_thr
     white_thr = args.white_thr
+
+    camera_param_file = args.camera
 
     dirnames = sorted(glob.glob('./capture_*'))
     if len(dirnames) == 0:
@@ -64,15 +68,31 @@ def main():
         gc_fname_lists.append(gc_fnames)
         print(' \'' + dname + '\' was found')
 
+    camP = None
+    cam_dist = None
+    path, ext = os.path.splitext(camera_param_file)
+    if(ext == ".json"):
+        camP,cam_dist = loadCameraParam(camera_param_file)
+        print('load camera parameters')
+        print(camP)
+        print(cam_dist)
+
     calibrate(used_dirnames, gc_fname_lists,
-              proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr)
+              proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr,
+               camP, cam_dist)
 
 
 def printNumpyWithIndent(tar, indentchar):
     print(indentchar + str(tar).replace('\n', '\n' + indentchar))
 
+def loadCameraParam(json_file):
+    with open(json_file, 'r') as f:
+        param_data = json.load(f)
+        P = param_data['camera']['P']
+        d = param_data['camera']['distortion']
+        return np.array(P).reshape([3,3]), np.array(d)
 
-def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr):
+def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr, camP, camD):
     objps = np.zeros((chess_shape[0]*chess_shape[1], 3), np.float32)
     objps[:, :2] = chess_block_size * \
         np.mgrid[0:chess_shape[0], 0:chess_shape[1]].T.reshape(-1, 2)
@@ -163,9 +183,20 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
         # cnt += 1
 
     print('Initial solution of camera\'s intrinsic parameters')
-    ret, cam_int, cam_dist, cam_rvecs, cam_tvecs = cv2.calibrateCamera(
-        cam_objps_list, cam_corners_list, cam_shape, None, None, None, None)
-    print('  RMS :', ret)
+    cam_rvecs = []
+    cam_tvecs = []
+    if(camP is None):
+        ret, cam_int, cam_dist, cam_rvecs, cam_tvecs = cv2.calibrateCamera(
+            cam_objps_list, cam_corners_list, cam_shape, None, None, None, None)
+        print('  RMS :', ret)
+    else:
+        for objp, corners in zip(cam_objps_list, cam_corners_list):
+            ret, cam_rvec, cam_tvec = cv2.solvePnP(objp, corners, camP, camD) 
+            cam_rvecs.append(cam_rvec)
+            cam_tvecs.append(cam_tvec)
+            print('  RMS :', ret)
+        cam_int = camP
+        cam_dist = camD
     print('  Intrinsic parameters :')
     printNumpyWithIndent(cam_int, '    ')
     print('  Distortion parameters :')
