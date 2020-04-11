@@ -62,7 +62,7 @@ The translation vector will be calculated with the length unit specified here.
 `white_threashold` is a threashold to specify robustness of graycode decoding.
 To avoid decoding error, increase these numbers.
 
-`camera_paramter_json` is a json file, in which internal camera paramters (projection matrix P, camera distortion, and image size) are written.  By indicating this option, the internal camera parameters are fixed and the other parameters are computed.  See "camera_config.json" as an example.
+`camera_paramter_json` is a json file, in which internal camera paramters (projection matrix P, camera distortion, and image size) are written. By indicating this option, the intrinsic camera parameters are fixed when compute the initial solution of camera attitudes. See "camera_config.json" as an example.
 
 Calibration result will be displayed on your terminal and saved in `./calibration_result.xml` (cv::FileStorage format).
 
