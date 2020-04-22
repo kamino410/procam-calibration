@@ -238,7 +238,7 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
     fs.write('cam_dist', cam_dist)
     fs.write('proj_int', proj_int)
     fs.write('proj_dist', proj_dist)
-    fs.write('roration', cam_proj_rmat)
+    fs.write('rotation', cam_proj_rmat)
     fs.write('translation', cam_proj_tvec)
     fs.release()
 
