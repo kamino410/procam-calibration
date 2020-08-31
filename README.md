@@ -1,6 +1,6 @@
 # procam-calibration
 
-This repository provides a source code to calibrate projector-camera system using a chessboard and structured light (graycode pattern).
+This repository provides a source code to calibrate projector-camera system using a chessboard and structured light (the graycode patterns).
 
 ## Requirement
 
@@ -14,7 +14,7 @@ This repository provides a source code to calibrate projector-camera system usin
 ## How to use
 ### Step 1 : Generate graycode pattern
 
-Open terminal and type following command.
+Open a terminal and type the following command.
 
 ```sh
 python gen_graycode_imgs.py <projector_pixel_height> <projector_pixel_width> [-graycode_step <graycode_step(default=1)>]
@@ -25,15 +25,15 @@ python gen_graycode_imgs.py 768 1024 -graycode_step 1
 
 Generated patterns will be stored in `./graycode_pattern/`.
 
-`graycode_step` is an option to specify pixel size of bits in graycode.
-If you get moire pattern in captured images, increase this number.
+`graycode_step` is an option to specify the pixel size of bits in graycode pattern images.
+If you get moire pattern in the captured images, increase this number.
 
 ### Step 2 : Project and capture the graycode patterns
 
 Setup your system and place a chessboard in front of the projector and camera.
-Then, project the graycode pattern generated in the previous step from the projector to it and capture it from the camera.
+Then, project the graycode patterns generated in the previous step from the projector to it and capture it from the camera.
 
-Although minimum required shot is one, it is recommended to capture more than 5 times with different attitude of the chessboard to improve calibration accuracy.
+Although minimum required shot is one, it is recommended to capture more than 5 times with different attitudes of the chessboard to improve the calibration accuracy.
 
 Captured images must be saved as `./capture_*/graycode_*.(png/jpg)`.
 
@@ -59,11 +59,11 @@ python ../calibrate.py 768 1024 9 7 75 1 -black_thr 40 -white_thr 5
 The translation vectors will be calculated with the length unit specified here.
 
 `black_threashold` is a threashold to determine whether a camera pixel captures projected area or not.
-`white_threashold` is a threashold to specify robustness of graycode decoding.
-To avoid decoding error, increase these numbers.
+`white_threashold` is a threashold to specify the robustness of graycode decoding.
+To avoid decoding errors, increase these numbers.
 
 `camera_paramter_json` is a json file, in which internal camera paramters (projection matrix P, camera distortion, and image size) are written.
-By indicating this option, the intrinsic camera parameters are fixed when compute the initial solution of camera attitudes.
+By indicating this option, the intrinsic camera parameters are fixed when compute the initial solution of the camera attitudes.
 See "camera_config.json" as an example.
 
 Calibration result will be displayed on your terminal and saved in `./calibration_result.xml` (with cv::FileStorage format).
