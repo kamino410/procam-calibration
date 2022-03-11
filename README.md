@@ -70,6 +70,8 @@ Calibration result will be displayed on your terminal and saved in `./calibratio
 
 ## Additional Resource
 
+This repository utilize the stereo calibration method in OpenCV. See the OpenCV documentation for details on coordinate systems, calibration method and output parameters.
+
 This software calculates local homographies at around chessboard corners to estimate corresponding projector pixels with subpixel accuracy.
 This algorithm is based on the following paper.
 
