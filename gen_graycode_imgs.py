@@ -30,13 +30,9 @@ def main():
     patterns = graycode.generate()[1]
 
     # expand image size
-    exp_patterns = []
-    for pat in patterns:
-        img = np.zeros((height, width), np.uint8)
-        for y in range(height):
-            for x in range(width):
-                img[y, x] = pat[int(y/step), int(x/step)]
-        exp_patterns.append(img)
+    ys = (np.arange(height) // step).astype(np.intp)
+    xs = (np.arange(width) // step).astype(np.intp)
+    exp_patterns = [pat[np.ix_(ys, xs)] for pat in patterns]
 
     exp_patterns.append(255*np.ones((height, width), np.uint8))  # white
     exp_patterns.append(np.zeros((height, width), np.uint8))     # black
