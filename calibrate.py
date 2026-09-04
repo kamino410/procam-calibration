@@ -131,6 +131,10 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
         white_img = imgs.pop()
 
         res, cam_corners = cv2.findChessboardCorners(white_img, chess_shape)
+        # OpenCV 5 returns corners shaped (N, 2); OpenCV 4 returned (N, 1, 2),
+        # which is what the corner[0][0] / corner[0][1] indexing below expects.
+        if res:
+            cam_corners = np.asarray(cam_corners, np.float32).reshape(-1, 1, 2)
         if not res:
             print('Error : chessboard was not found in \'' +
                   gc_filenames[-2] + '\'')
