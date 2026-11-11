@@ -68,6 +68,24 @@ See "camera_config.json" as an example.
 
 Calibration result will be displayed on your terminal and saved in `./calibration_result.xml` (with cv::FileStorage format).
 
+### Convert calibration result to JSON
+
+Convert an OpenCV FileStorage XML result with:
+
+```sh
+python xml_to_json.py calibration_result.xml
+```
+
+By default, this writes `calibration_result.json` next to the XML file. You can
+also specify an output path:
+
+```sh
+python xml_to_json.py calibration_result.xml result.json
+```
+
+Matrix values are written as a flat `data` array, with their `rows`, `cols`,
+and OpenCV `dt` type retained in the JSON.
+
 ## Additional Resource
 
 This repository utilize the stereo calibration method in OpenCV. See the OpenCV documentation for details on coordinate systems, calibration method and output parameters.
