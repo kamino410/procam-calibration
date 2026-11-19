@@ -17,6 +17,7 @@ def main():
                         help='number used in the output folder (capture_<number>)')
     parser.add_argument('--camera-index', type=int, default=0,
                         help='OpenCV camera index (default: 0)')
+    parser.add_argument('--auto', action='store_true', help='Do capture automatically without waiting for user input')
     args = parser.parse_args()
 
     if args.capture_number < 0:
@@ -46,11 +47,36 @@ def main():
         camera.release()
         parser.error(f'could not open camera index {args.camera_index}')
 
+    camera.set(cv2.CAP_PROP_BUFFERSIZE, 1) #no repeated frames
+
     try:
         output_dir.mkdir()
         window_name = 'Gray-code pattern'
         cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
         cv2.setWindowProperty(window_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+        init = cv2.imread(patterns[0], cv2.IMREAD_GRAYSCALE)
+        if init is None:
+            print(f'Could not read pattern image: {patterns[0]}', file=sys.stderr)
+            return 1
+        
+        cv2.imshow(window_name, init)
+        cv2.waitKey(2000) #wait for window to pop up
+        
+        while True:
+            ok, frame = camera.read()
+            if not ok:
+                print('Could not read a frame from the camera.', file=sys.stderr)
+                return 1
+            
+            cv2.imshow("Camera feed", frame)
+            
+            key = cv2.waitKey(100) & 0xFF
+            if key in (27, ord('q')):
+                print('Capture stopped.')
+                return 0
+            if key in (32, 13):
+                break
+        
         print('Press SPACE to capture each pattern; press ESC or Q to stop.')
 
         for sequence_number, pattern_path in enumerate(patterns, start=1):
@@ -63,18 +89,33 @@ def main():
             cv2.imshow(window_name, pattern)
             print(f'Pattern {sequence_number}/{len(patterns)}: {pattern_path}')
 
-            while True:
-                key = cv2.waitKey(0) & 0xFF
+            if args.auto:
+                key = cv2.waitKey(500)  # Wait before capturing automatically
                 if key in (27, ord('q')):
                     print('Capture stopped.')
                     return 0
                 if key in (32, 13):
                     break
+            else:
+                while True:
+                    key = cv2.waitKey(0) & 0xFF
+                    if key in (27, ord('q')):
+                        print('Capture stopped.')
+                        return 0
+                    if key in (32, 13):
+                        break
+            
+            for _ in range(4):
+                camera.grab()
 
-            ok, frame = camera.read()
+            # Decode and fetch only the latest frame
+            ok, frame = camera.retrieve()
+            #ok, frame = camera.read()
             if not ok:
                 print('Could not read a frame from the camera.', file=sys.stderr)
                 return 1
+
+            cv2.imshow("Camera feed", frame)
 
             output_path = output_dir / f'graycode_{pattern_index}.png'
             if not cv2.imwrite(str(output_path), frame):
