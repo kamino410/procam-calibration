@@ -1,2 +1,2 @@
-opencv-python
-opencv-contrib-python
+opencv-python<5.0
+opencv-contrib-python<5.0
