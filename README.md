@@ -31,7 +31,21 @@ If you get moire pattern in the captured images in the next step, increase this 
 ### Step 2 : Project and capture the gray code patterns
 
 Set up your system and place a chessboard in front of the projector and camera.
-Then, project the gray code patterns generated in the previous step from the projector to it and capture it from the camera.
+Then, project the gray code patterns generated in the previous step from the projector to it and capture it from the camera. You can use the capture script to display each pattern and capture it with the camera:
+
+```sh
+python capture_graycode.py <graycode_pattern_folder> <capture_number>
+
+# example; use a different number for each capture
+python capture_graycode.py ./graycode_pattern 1
+```
+
+Move the pattern window to the projector display if needed. Press **SPACE** (or
+**ENTER**) to capture the displayed pattern, and **ESC** or **Q** to stop.
+Captured frames are saved as `./capture_<capture_number>/graycode_*.png`.
+Each captured filename uses the index from its source `pattern_<index>` filename.
+Pass `--camera-index <index>` to select a camera other than OpenCV's default
+camera index `0`.
 
 Although minimum required shot is one, it is recommended to capture more than 5 times with different attitudes of the chessboard to improve the calibration accuracy.
 
