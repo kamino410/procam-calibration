@@ -43,7 +43,7 @@ def main():
 
     args = parser.parse_args()
 
-    proj_shape = (args.proj_height, args.proj_width)
+    proj_shape = (args.proj_width, args.proj_height)
     chess_shape = (args.chess_vert, args.chess_hori)
     chess_block_size = args.chess_block_size
     gc_step = args.graycode_step
@@ -98,8 +98,10 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
         np.mgrid[0:chess_shape[0], 0:chess_shape[1]].T.reshape(-1, 2)
 
     print('Calibrating ...')
-    gc_height = int((proj_shape[0]-1)/gc_step)+1
-    gc_width = int((proj_shape[1]-1)/gc_step)+1
+    proj_width, proj_height = proj_shape
+
+    gc_width  = int((proj_width  - 1) / gc_step) + 1
+    gc_height = int((proj_height - 1) / gc_step) + 1
     graycode = cv2.structured_light_GrayCodePattern.create(
         gc_width, gc_height)
     graycode.setBlackThreshold(black_thr)
