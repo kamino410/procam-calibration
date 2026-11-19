@@ -40,6 +40,7 @@ def main():
     parser.add_argument('-white_thr', type=int, default=5,
                         help='threashold to specify robustness of graycode decoding (default : 5)')
     parser.add_argument('-camera', type=str, default=str(),help='camera internal parameter json file')
+    parser.add_argument('--cornerSubPix', action='store_true', default=False, help='Estimate camera corner detections with subpixel accuracy (default: False)')
 
     args = parser.parse_args()
 
@@ -79,7 +80,7 @@ def main():
 
     calibrate(used_dirnames, gc_fname_lists,
               proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr,
-               camP, cam_dist)
+               camP, cam_dist, args.cornerSubPix)
 
 
 def printNumpyWithIndent(tar, indentchar):
@@ -92,7 +93,7 @@ def loadCameraParam(json_file):
         d = param_data['camera']['distortion']
         return np.array(P).reshape([3,3]), np.array(d)
 
-def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr, camP, camD):
+def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_size, gc_step, black_thr, white_thr, camP, camD, corner_subpix=False):
     objps = np.zeros((chess_shape[0]*chess_shape[1], 3), np.float32)
     objps[:, :2] = chess_block_size * \
         np.mgrid[0:chess_shape[0], 0:chess_shape[1]].T.reshape(-1, 2)
@@ -135,6 +136,13 @@ def calibrate(dirnames, gc_fname_lists, proj_shape, chess_shape, chess_block_siz
             print('Error : chessboard was not found in \'' +
                   gc_filenames[-2] + '\'')
             return None
+               
+        if corner_subpix:
+            criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 40, 0.001)
+            cam_corners = cv2.cornerSubPix(white_img, cam_corners, (11, 11), (-1, -1), criteria=criteria)
+
+        cam_corners = cam_corners.reshape(-1, 1, 2)
+
         cam_objps_list.append(objps)
         cam_corners_list.append(cam_corners)
 
